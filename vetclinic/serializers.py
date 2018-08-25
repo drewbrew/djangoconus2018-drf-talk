@@ -6,6 +6,7 @@ from drfdemo.users.serializers import UserSerializer
 from drfdemo.users.models import User
 
 from . import models
+from . import fields
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -138,6 +139,7 @@ class BreedSerializerWithWritableSerializer(serializers.ModelSerializer):
 
 
 class BreedSerializerWithSeparateWritablePK(serializers.ModelSerializer):
+    """Breed with option 2: write a separate PK field"""
     species = SpeciesSerializer(read_only=True)
     species_id = serializers.PrimaryKeyRelatedField(
         queryset=models.Species.objects.all(),
@@ -157,3 +159,11 @@ class BreedSerializerWithSeparateWritablePK(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = models.Breed
+
+
+class BreedSerializerWithWritablePK(serializers.ModelSerializer):
+    """Breed with option 3: write a PK, read a nested object"""
+    species = fields.SpeciesField(
+        queryset=models.Species.objects.all(),
+        write_only=True, required=True, allow_null=False,
+    )
