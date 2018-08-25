@@ -135,3 +135,25 @@ class BreedSerializerWithWritableSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = models.Breed
+
+
+class BreedSerializerWithSeparateWritablePK(serializers.ModelSerializer):
+    species = SpeciesSerializer(read_only=True)
+    species_id = serializers.PrimaryKeyRelatedField(
+        queryset=models.Species.objects.all(),
+        write_only=True, required=True, allow_null=False,
+    )
+
+    def validate(self, data):
+        try:
+            data['species'] = data.pop('species_id')
+        except KeyError:
+            # this will already have failed validation for POST and PUT;
+            # if it's not provided, PATCH won't change anything.
+            # Thus, nothing to do.
+            pass
+        return data
+
+    class Meta:
+        fields = '__all__'
+        model = models.Breed
