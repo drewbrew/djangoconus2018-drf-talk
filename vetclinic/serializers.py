@@ -56,7 +56,9 @@ class SpeciesSerializer(serializers.ModelSerializer):
 
     technicians = UserSerializer(many=True, read_only=True)
     technician_ids = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        # we can filter the queryset to prevent the API user from assigning
+        # inactive user instances.
+        queryset=User.objects.filter(is_active=True),
         write_only=True, allow_null=False, required=True,
     )
 
