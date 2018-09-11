@@ -172,8 +172,8 @@ class BreedSerializerWithWritablePK(serializers.ModelSerializer):
 
 
 class AnimalListSerializer(serializers.ListSerializer):
-    client = serializers.StringRelatedField(read_only=True)
-    species = serializers.StringRelatedField(read_only=True)
+    client = serializers.StringRelatedField()
+    species = serializers.StringRelatedField()
 
     # NOTE: To make this writable (so you can POST multiple animals at once,
     # define .create() here)
@@ -202,6 +202,15 @@ class LimitedAppoinmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Appointment
         exclude = ['animal']
+
+
+class AppoitnmentBookingSerializer(LimitedAppoinmentSerializer):
+    veterinarian = serializers.PrimaryKeyRelatedField(
+        # don't let the user request an appointment with a vet who is not
+        # active!
+        queryset=models.Veterinarian.objects.filter(user__is_active=True),
+        allow_null=False,
+    )
 
 
 class AnimalWithAppointmentsSerializer(AnimalDetailSerializer):

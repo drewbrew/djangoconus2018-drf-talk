@@ -3,6 +3,9 @@ import datetime
 from django.db.models import Prefetch
 from django.utils.timezone import now
 from rest_framework.views import ModelViewSet
+from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
 
 from . import models
 from . import serializers
@@ -34,6 +37,21 @@ class BreedViewSetWithSeparateIDField(ModelViewSet):
 
 
 class AnimalViewSet(ModelViewSet):
+
+    @action(detail=True)
+    def book_appointment(self, request, pk):
+        """Book an appointment for an animal"""
+        animal = get_object_or_404(
+            # we don't care about related data for this action;
+            # if we were doing validation, this might change.
+            self.get_queryset().prefetch_related(None).select_related(None),
+            id=pk,
+        )
+        serializer = serializers.AppoitnmentBookingSerializer(
+            data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save(animal=animal)
+        return Response(serializer.data)
 
     def get_queryset(self):
         queryset = super().get_queryset()
