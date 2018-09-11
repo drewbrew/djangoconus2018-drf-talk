@@ -169,3 +169,27 @@ class BreedSerializerWithWritablePK(serializers.ModelSerializer):
         queryset=models.Species.objects.all(),
         write_only=True, required=True, allow_null=False,
     )
+
+
+class AnimalListSerializer(serializers.ListSerializer):
+    client = serializers.StringRelatedField(read_only=True)
+    species = serializers.StringRelatedField(read_only=True)
+
+    # NOTE: To make this writable (so you can POST multiple animals at once,
+    # define .create() here)
+
+    class Meta:
+        model = models.Animal
+        exclude = ['breed']
+
+
+class AnimalDetailSerializer(serializers.ModelSerializer):
+    # NOTE: I'm just dealing with this to be read-only for brevity
+    client = ClientSerializer(read_only=True)
+    species = SpeciesSerializer(read_only=True)
+    breed = BreedSerializerWithWritablePK(read_only=True)
+
+    class Meta:
+        model = models.Animal
+        fields = '__all__'
+        list_serializer_class = AnimalListSerializer

@@ -25,10 +25,16 @@ class Species(models.Model):
     technicians = models.ManyToManyField(User)
     name = models.CharField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Breed(models.Model):
     name = models.CharField(max_length=50)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         unique_together = (('name', 'species'), )
@@ -48,6 +54,9 @@ class Animal(models.Model):
     breed = models.ForeignKey(Breed, blank=True, on_delete=models.DO_NOTHING)
     approx_year_of_birth = models.PositiveSmallIntegerField()
     first_visit_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Appointment(models.Model):
