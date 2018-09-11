@@ -2,6 +2,7 @@ import datetime
 
 from django.db.models import Prefetch
 from django.utils.timezone import now
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 
 from . import models
 from . import serializers
+from . import filter
 
 
 class ClientViewSet(ModelViewSet):
@@ -87,3 +89,5 @@ class AnimalViewSet(ModelViewSet):
     # list serializer.
     serializer_class = serializers.AnimalDetailSerializer
     queryset = models.Animal.objects.select_related('species', 'client')
+    filter_backends = (DjangoFilterBackend, )
+    filter_class = filters.AnimalFilter
