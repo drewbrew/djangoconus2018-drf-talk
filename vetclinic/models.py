@@ -61,7 +61,9 @@ class Animal(models.Model):
 
 class Appointment(models.Model):
     time = models.DateTimeField()
-    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    animal = models.ForeignKey(
+        Animal, on_delete=models.CASCADE, related_name='appointments',
+    )
     # NOTE: Real vet clinics have vet and tech appointments as separate
     # scheduling options
     veterinarian = models.ForeignKey(Veterinarian, on_delete=models.DO_NOTHING)

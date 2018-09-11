@@ -193,3 +193,19 @@ class AnimalDetailSerializer(serializers.ModelSerializer):
         model = models.Animal
         fields = '__all__'
         list_serializer_class = AnimalListSerializer
+
+
+class LimitedAppoinmentSerializer(serializers.ModelSerializer):
+    """Appointment without animal for embedding within animal"""
+    veterinarian = serializers.StringRelatedField()
+
+    class Meta:
+        model = models.Appointment
+        exclude = ['animal']
+
+
+class AnimalWithAppointmentsSerializer(AnimalDetailSerializer):
+    """Animal detail serializer with appointments built in"""
+    # NOTE: Normally this would be something users might like to have
+    # built in to the main detail view, but I'm stretching the example here.
+    appointments = LimitedAppoinmentSerializer(read_only=True)
