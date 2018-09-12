@@ -7,7 +7,7 @@ Example code for my DRF talk at DjangoCon US 2018. Check out the project's [docu
 
 # Prerequisites
 
-- [Docker](https://docs.docker.com/docker-for-mac/install/)  
+- [Docker](https://docs.docker.com/docker-for-mac/install/)
 - [Travis CLI](http://blog.travis-ci.com/2013-01-14-new-client/)
 
 # Local Development
