@@ -55,6 +55,8 @@ class AnimalViewSet(ModelViewSet):
             data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save(animal=animal)
+        serializer = serializers.AppoitnmentBookingSerializer(
+            instance=instance)
         return Response(serializer.data)
 
     def get_queryset(self):
