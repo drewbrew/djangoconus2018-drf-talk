@@ -62,6 +62,10 @@ class SpeciesSerializer(serializers.ModelSerializer):
         write_only=True, allow_null=False, required=True,
     )
 
+    class Meta:
+        model = models.Species
+        fields = '__all__'
+
 # NOTE: I'm not going to go through showing all the options for
 # the species serializer since it's a ManyToManyField.
 # The serializer options are identical for M2M vs direct foreign
@@ -169,6 +173,10 @@ class BreedSerializerWithWritablePK(serializers.ModelSerializer):
         queryset=models.Species.objects.all(),
         write_only=True, required=True, allow_null=False,
     )
+
+    class Meta:
+        fields = '__all__'
+        model = models.Breed
 
 
 class AnimalListSerializer(serializers.ListSerializer):
