@@ -39,6 +39,8 @@ class BreedViewSetWithSeparateIDField(ModelViewSet):
 
 
 class AnimalViewSet(ModelViewSet):
+    """This is a docstring to _show_ that you can use **Markdown** in swagger
+    """
 
     @action(detail=True)
     def book_appointment(self, request, pk):
