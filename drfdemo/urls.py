@@ -5,9 +5,12 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from rest_framework_swagger.views import get_swagger_view
 
 from vetclinic.urls import urlpatterns as vetclinic_patterns
 from .users.views import UserViewSet, UserCreateViewSet
+
+schema_view = get_swagger_view(title='Swagger API')
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -22,6 +25,7 @@ urlpatterns = [
         'api-auth/',
         include('rest_framework.urls', namespace='rest_framework'),
     ),
+    path('docs', schema_view),
 
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
