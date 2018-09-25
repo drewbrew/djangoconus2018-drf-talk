@@ -71,7 +71,7 @@ class AnimalViewSet(ModelViewSet):
                     'appointments',
                     queryset=models.Appointment.objects.filter(
                         time__gte=timestamp - datetime.timedelta(days=30),
-                        time__lte=timestamp - datetime.timedelta(days=30),
+                        time__lte=timestamp + datetime.timedelta(days=30),
                     ).select_related('veterinarian'),
                 ),
             )
