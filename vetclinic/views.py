@@ -65,13 +65,14 @@ class AnimalViewSet(ModelViewSet):
                 'vetclinic.see_animal_appointments_with_animal',
         ):
             timestamp = now()
+            start_time = timestamp - datetime.timedelta(days=30)
+            end_time = timestamp + datetime.timedelta(days=30)
             # tack on appointments, but filter to only within +/- 30 days
             queryset = queryset.prefetch_related(
                 Prefetch(
                     'appointments',
                     queryset=models.Appointment.objects.filter(
-                        time__gte=timestamp - datetime.timedelta(days=30),
-                        time__lte=timestamp + datetime.timedelta(days=30),
+                        time__range=(start_time, end_time),
                     ).select_related('veterinarian'),
                 ),
             )
