@@ -51,11 +51,11 @@ class AnimalViewSet(ModelViewSet):
             self.get_queryset().prefetch_related(None).select_related(None),
             id=pk,
         )
-        serializer = serializers.AppoitnmentBookingSerializer(
+        serializer = serializers.AppointmentBookingSerializer(
             data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save(animal=animal)
-        serializer = serializers.AppoitnmentBookingSerializer(
+        serializer = serializers.AppointmentBookingSerializer(
             instance=instance)
         return Response(serializer.data)
 
