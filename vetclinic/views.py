@@ -51,11 +51,11 @@ class AnimalViewSet(ModelViewSet):
             self.get_queryset().prefetch_related(None).select_related(None),
             id=pk,
         )
-        serializer = serializers.AppoitnmentBookingSerializer(
+        serializer = serializers.AppointmentBookingSerializer(
             data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save(animal=animal)
-        serializer = serializers.AppoitnmentBookingSerializer(
+        serializer = serializers.AppointmentBookingSerializer(
             instance=instance)
         return Response(serializer.data)
 
@@ -65,13 +65,14 @@ class AnimalViewSet(ModelViewSet):
                 'vetclinic.see_animal_appointments_with_animal',
         ):
             timestamp = now()
+            start_time = timestamp - datetime.timedelta(days=30)
+            end_time = timestamp + datetime.timedelta(days=30)
             # tack on appointments, but filter to only within +/- 30 days
             queryset = queryset.prefetch_related(
                 Prefetch(
                     'appointments',
                     queryset=models.Appointment.objects.filter(
-                        time__gte=timestamp - datetime.timedelta(days=30),
-                        time__lte=timestamp + datetime.timedelta(days=30),
+                        time__range=(start_time, end_time),
                     ).select_related('veterinarian'),
                 ),
             )

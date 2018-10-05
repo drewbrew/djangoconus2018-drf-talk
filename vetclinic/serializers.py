@@ -203,7 +203,7 @@ class AnimalDetailSerializer(serializers.ModelSerializer):
         list_serializer_class = AnimalListSerializer
 
 
-class LimitedAppoinmentSerializer(serializers.ModelSerializer):
+class LimitedAppointmentSerializer(serializers.ModelSerializer):
     """Appointment without animal for embedding within animal"""
     veterinarian = serializers.StringRelatedField()
 
@@ -212,7 +212,7 @@ class LimitedAppoinmentSerializer(serializers.ModelSerializer):
         exclude = ['animal']
 
 
-class AppoitnmentBookingSerializer(LimitedAppoinmentSerializer):
+class AppointmentBookingSerializer(LimitedAppointmentSerializer):
     veterinarian = serializers.PrimaryKeyRelatedField(
         # don't let the user request an appointment with a vet who is not
         # active!
@@ -225,4 +225,4 @@ class AnimalWithAppointmentsSerializer(AnimalDetailSerializer):
     """Animal detail serializer with appointments built in"""
     # NOTE: Normally this would be something users might like to have
     # built in to the main detail view, but I'm stretching the example here.
-    appointments = LimitedAppoinmentSerializer(read_only=True)
+    appointments = LimitedAppointmentSerializer(read_only=True)
