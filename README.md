@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/drewbrew/djangoconus2018-drf-talk.svg?branch=master)](https://travis-ci.org/drewbrew/djangoconus2018-drf-talk)
 [![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
 
-Example code for my DRF talk at DjangoCon US 2018. Check out the project's [documentation](http://drewbrew.github.io/djangoconus2018-drf-talk/).
+Example code for my DRF talk at DjangoCon US 2018. Check out the project's
+[documentation](http://drewbrew.github.io/djangoconus2018-drf-talk/) or
+[slides](https://docs.google.com/presentation/d/1DpngY037NZqq2aelnM4czjgWIUh20tF5Q4jp3yOOHuU/edit?usp=sharing).
 
 # Prerequisites
 
